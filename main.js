@@ -9,15 +9,18 @@ connection.onerror = (error) => {
 }
 
 connection.onmessage = (event) => {
-    console.log('received', event.data);
     let li = document.createElement('li');
-    li.innerText = event.data;
+    li.innerText = JSON.parse(event.data).msg;
     document.querySelector('#chat').append(li);
-  };
+};
 
 document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault();
     let message = document.querySelector('#message').value;
-    connection.send(message);
+    let gt = {
+      "msg":message,
+      "target":12
+      };
+    connection.send(JSON.stringify(gt));
     document.querySelector('#message').value = '';
-  });
+});
